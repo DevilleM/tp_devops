@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+
+  database:
+      container_name: database
+      build: ./database
+      networks:
+        -  app-network
+      env_file:
+        - database/.env
+      volumes:
+        - database-data:/var/lib/postgresql/data
+        - ./database/sql:/docker-entrypoint-initdb.d:ro
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    networks:
+      -  app-network
+    depends_on:
+      - database
+    ports:
+      - 8090:8080
+    
+  backend:
+      container_name: simple-api
+      build: ./simple-api
+      restart: on-failure
+      networks:
+        - app-network
+      depends_on:
+        - database
+
+
+  httpd:
+    container_name: httpd
+    build: ./httpd
+    ports:
+      - 80:80
+    networks:
+      - app-network
+
+networks:
+    app-network:
+
+volumes:
+  database-data:
