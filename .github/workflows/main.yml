@@ -22,7 +22,7 @@ jobs:
 
       #finally build your app with the latest command
       - name: Build and test with Maven
-        run: mvn clean verify --file ./simple-api/pom.xml
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=DevilleM_tp_devops -Dsonar.organization=DevilleM -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./simple-api/pom.xml
   push-backend:
     needs: test-backend
     # run only when code is compiling and tests are passing
