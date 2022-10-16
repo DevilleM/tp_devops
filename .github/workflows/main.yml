@@ -2,7 +2,7 @@ name: CI devops 2022 EPF
 on:
   #to begin you want to launch this job in main and develop
   push:
-    branches:[master]
+    branches: [master, develop]
   pull_request:
 
 jobs:
